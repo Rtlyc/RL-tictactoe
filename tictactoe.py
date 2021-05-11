@@ -35,19 +35,28 @@ class TicTacToe:
         self.state = [-1]*9
 
 
-    def step(self, action, player=False):
+    def step(self, action, player):
         """
         update available actions
         param: 
             actions(list(int)): lisf of actions
+            ##player(int): 1->X, 0->O
         """
         self.state[action] = 1
         gameover, reward = self.gamecheck()
         if gameover: return self.state, reward, gameover
-        if not player:
+        # next_state = self.state[:]
+        # move = random.choice(self.blank())
+        # next_state[move] = 0
+
+        # if gameover: return self.state, reward, gameover
+        # if not player:
+        #     self.opponent()
+        #     gameover, reward = self.gamecheck()
+        #     return self.state,reward,gameover
+        if player != -1: # real person
             self.opponent()
             gameover, reward = self.gamecheck()
-            return self.state,reward,gameover
         return self.state, reward, gameover
 
     def pstep(self, action):
@@ -55,6 +64,17 @@ class TicTacToe:
         gameover, reward = self.gamecheck()
         if gameover: return self.state, reward, gameover
 
+    def mirror(self):
+        """
+        change the state to be opposite so that two players can learn
+        """
+        newstate = []
+        for val in self.state:
+            if val < 0:
+                newstate.append(val)
+            else:
+                newstate.append(1-val)
+        self.state = newstate
 
 
     def render(self):
@@ -68,6 +88,7 @@ class TicTacToe:
             print(val,end="")
             if i%3 != 2: print('|',end="")
             else: print()
+        print()
     
     def gamecheck(self)->(bool,float):
         """
