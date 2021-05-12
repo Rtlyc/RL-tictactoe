@@ -34,6 +34,19 @@ class TicTacToe:
         """
         self.state = [-1]*9
 
+    def TDstep(self, action, player):
+        '''
+        ret: next_state,reward,gameover
+        '''
+        self.state[action] = player
+        gameover, reward = self.gamecheck(player)
+        
+        # next_state = self.state[:]
+        # potentials = self.blank()
+        # if not potentials: return next_state, reward, gameover
+        # action = random.choice(self.blank())
+        # next_state[action] = 1-player
+        return self.state, reward, gameover
 
     def step(self, action, player):
         """
@@ -90,7 +103,7 @@ class TicTacToe:
             else: print()
         print()
     
-    def gamecheck(self)->(bool,float):
+    def gamecheck(self, player=1)->(bool,float):
         """
         check whether game is over 
         ret:
@@ -102,7 +115,7 @@ class TicTacToe:
         reward = 0
         for a,b,c in gamepoints:
             if self.state[a] == self.state[b] and self.state[a] == self.state[c] and self.state[a] != -1:
-                if self.state[a] == 1: reward = 1 
+                if self.state[a] == player: reward = 1 
                 else: reward = -1  
                 gameover = True  
                 break
